@@ -1,0 +1,43 @@
+name: Question or setup help
+description: Ask how to do something with the exporter
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing here, please check:
+
+        - The [README](https://github.com/dlepaux/jellyfin-exporter#readme) — Configuration, Endpoints, and Metrics reference cover most setup questions.
+        - The [examples directory](https://github.com/dlepaux/jellyfin-exporter/tree/main/examples) — `docker-compose.example.yml`, `examples/prometheus/scrape.yml`, and `examples/grafana/dashboard.json` are the fastest path from zero to green.
+        - Existing [issues](https://github.com/dlepaux/jellyfin-exporter/issues?q=is%3Aissue) — your question may already have an answer.
+
+        For Jellyfin-the-server questions (configuration, plugins, library
+        setup), the [Jellyfin Forum 3rd Party Tools section](https://forum.jellyfin.org/f-third-party-tools)
+        is the right place. For Prometheus/Grafana-the-tool questions,
+        the upstream Prometheus / Grafana communities will get you a
+        better answer faster.
+
+        If your question is specifically about this exporter, fire away.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you trying to do?
+      description: What's the goal? What have you tried so far?
+    validations:
+      required: true
+
+  - type: input
+    id: exporter-version
+    attributes:
+      label: Exporter version
+      placeholder: "1.4.1"
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: |
+        Env vars, scrape config snippet, anything else that helps
+        understand the setup. **Redact API keys and tokens.**
+      render: shell

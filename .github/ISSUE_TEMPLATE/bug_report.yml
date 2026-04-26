@@ -1,0 +1,90 @@
+name: Bug report
+description: Report something that's not working as documented
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report. The fields below help me reproduce
+        what you're seeing without a back-and-forth. **Do not paste raw
+        secrets** (Jellyfin API key, METRICS_TOKEN) — redact them as
+        `[REDACTED]` if they appear in logs.
+
+        For security issues, see
+        [security.md](https://github.com/dlepaux/jellyfin-exporter/blob/main/security.md)
+        instead — public issues are not the right channel.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you observe? What did you expect to see instead?
+      placeholder: |
+        I set METRICS_TOKEN and scraped /metrics with the right Bearer
+        token, but got back a 401. Expected 200.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: Minimum steps to reproduce. Include `docker run` / compose / env vars.
+      placeholder: |
+        1. `docker run -e JELLYFIN_URL=... -e JELLYFIN_API_KEY=... -e METRICS_TOKEN=secret -p 9711:9711 ghcr.io/dlepaux/jellyfin-exporter:1.4.1`
+        2. `curl -H "Authorization: Bearer secret" http://localhost:9711/metrics`
+        3. Got 401 instead of 200.
+    validations:
+      required: true
+
+  - type: input
+    id: exporter-version
+    attributes:
+      label: Exporter version
+      description: From the `jellyfin_exporter_build_info` metric, or the image tag you pulled.
+      placeholder: "1.4.1"
+    validations:
+      required: true
+
+  - type: input
+    id: jellyfin-version
+    attributes:
+      label: Jellyfin version
+      description: From the Jellyfin admin dashboard, or `jellyfin_server_info{version}`.
+      placeholder: "10.9.11"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment shape
+      options:
+        - Docker (single container)
+        - Docker Compose
+        - Kubernetes
+        - Bare binary
+        - Other (specify in 'How to reproduce')
+    validations:
+      required: true
+
+  - type: dropdown
+    id: arch
+    attributes:
+      label: CPU architecture
+      options:
+        - linux/amd64
+        - linux/arm64
+        - other (specify in 'How to reproduce')
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        Output from `docker logs jellyfin-exporter` or the equivalent.
+        Run with `LOG_LEVEL=debug` if the default level isn't surfacing
+        the issue. **Redact API keys and tokens.**
+      render: shell

@@ -1,0 +1,40 @@
+[package]
+name = "jellyfin-exporter"
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+description = "Prometheus exporter for Jellyfin — sessions, transcoding, and library metrics"
+repository = "https://github.com/dlepaux/jellyfin-exporter"
+homepage = "https://github.com/dlepaux/jellyfin-exporter"
+documentation = "https://github.com/dlepaux/jellyfin-exporter#readme"
+readme = "readme.md"
+keywords = ["jellyfin", "prometheus", "exporter", "monitoring", "metrics"]
+categories = ["command-line-utilities"]
+
+[lib]
+name = "jellyfin_exporter"
+path = "src/lib.rs"
+
+[[bin]]
+name = "jellyfin-exporter"
+path = "src/main.rs"
+
+[dependencies]
+async-trait = "0.1"
+axum = "0.8"
+fastrand = "2"
+futures-util = { version = "0.3", default-features = false, features = ["std", "async-await-macro"] }
+prometheus = "0.14"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+subtle = "2"
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "time", "sync"] }
+tokio-util = "0.7"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+axum-test = "17"

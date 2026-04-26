@@ -1,0 +1,59 @@
+name: Feature request
+description: Suggest a new metric, label, or capability
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature. The most useful requests describe
+        a real query you can't answer with what's already exposed —
+        "I want to alert on X" or "my dashboard needs Y."
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: |
+        What question do you want to answer with the exporter that you
+        can't today? Or what alert do you want to fire that you can't
+        construct from the existing metrics?
+      placeholder: |
+        I want to alert when total Jellyfin watch time across all users
+        exceeds my upstream bandwidth budget for the month.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: |
+        What would the metric / label / behavior look like? Concrete
+        proposals are easier to evaluate than open-ended asks.
+      placeholder: |
+        Add `jellyfin_session_duration_seconds_total{user}` as a
+        Counter that accumulates session durations on PlaybackStop.
+        (Note: requires webhook receiver — see backlog.)
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        Are there existing metrics or PromQL queries that get you most of
+        the way there? What's missing about them?
+
+  - type: dropdown
+    id: pr
+    attributes:
+      label: Willing to PR?
+      description: |
+        No expectation either way — useful to know who's waiting on what.
+      options:
+        - "I can submit a PR"
+        - "I can help test"
+        - "Just suggesting"
+    validations:
+      required: true

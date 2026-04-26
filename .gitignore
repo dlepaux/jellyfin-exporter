@@ -1,0 +1,10 @@
+target/
+node_modules/
+.env
+*.log
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp

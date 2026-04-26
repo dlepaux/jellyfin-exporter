@@ -1,0 +1,39 @@
+# Prometheus scrape config for jellyfin-exporter.
+#
+# Drop this snippet into the `scrape_configs:` section of your prometheus.yml.
+# Default scrape_interval (10s) matches the exporter's default collection
+# interval, so each scrape sees a fresh snapshot — bumping prometheus's
+# interval below 10s gains nothing because the exporter caches between
+# collections.
+#
+# Two variants below: anonymous (Prometheus and exporter on a trusted
+# internal network) and Bearer-token authenticated (when METRICS_TOKEN is
+# set on the exporter).
+
+# ---------------------------------------------------------------------------
+# Anonymous scrape — exporter has no METRICS_TOKEN configured.
+# ---------------------------------------------------------------------------
+scrape_configs:
+  - job_name: jellyfin
+    static_configs:
+      - targets:
+          - "jellyfin-exporter:9711"
+
+# ---------------------------------------------------------------------------
+# Bearer-token authenticated scrape — exporter has METRICS_TOKEN configured.
+# Use this variant when the exporter is reachable from outside a trusted
+# network, or as defense-in-depth.
+# ---------------------------------------------------------------------------
+#
+# scrape_configs:
+#   - job_name: jellyfin
+#     authorization:
+#       type: Bearer
+#       credentials_file: /etc/prometheus/jellyfin-exporter.token
+#     static_configs:
+#       - targets:
+#           - "jellyfin-exporter:9711"
+#
+# `credentials_file` keeps the token out of prometheus.yml itself. Create
+# the file with `echo -n "$YOUR_TOKEN" > /etc/prometheus/jellyfin-exporter.token`
+# (no trailing newline) and chmod it to 0400 owned by the prometheus user.

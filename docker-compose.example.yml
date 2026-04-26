@@ -1,0 +1,55 @@
+# Complete example stack: Jellyfin + jellyfin-exporter + Prometheus.
+#
+# Goal: zero-to-green metrics in 60 seconds for first-time users. Bring it
+# up with `docker compose -f docker-compose.example.yml up -d`, wait for
+# Jellyfin to finish first-run setup at http://localhost:8096, generate an
+# API key (Dashboard → API Keys), drop it in a `.env` file next to this
+# compose file as `JELLYFIN_API_KEY=...`, then `docker compose ... restart
+# jellyfin-exporter`. Prometheus is at http://localhost:9090.
+#
+# This is a *learning* stack. For production deployments, add volumes,
+# health checks at the orchestrator level, network isolation, and consult
+# the README's Configuration table for the full env-var surface.
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    ports:
+      - "8096:8096"
+    volumes:
+      - jellyfin-config:/config
+      - jellyfin-cache:/cache
+    restart: unless-stopped
+
+  jellyfin-exporter:
+    image: ghcr.io/dlepaux/jellyfin-exporter:latest
+    container_name: jellyfin-exporter
+    depends_on:
+      - jellyfin
+    environment:
+      JELLYFIN_URL: http://jellyfin:8096
+      JELLYFIN_API_KEY: ${JELLYFIN_API_KEY:?JELLYFIN_API_KEY is required — generate one in Jellyfin and put it in .env}
+      LOG_LEVEL: info
+      # METRICS_TOKEN: ${METRICS_TOKEN}    # uncomment when scraping over an untrusted network
+      # EXPOSE_REMOTE_ADDRESS: "true"      # opt-in: PII-adjacent
+    ports:
+      - "9711:9711"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    depends_on:
+      - jellyfin-exporter
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./examples/prometheus/scrape.yml:/etc/prometheus/scrape.yml:ro
+    command:
+      - "--config.file=/etc/prometheus/scrape.yml"
+    restart: unless-stopped
+
+volumes:
+  jellyfin-config:
+  jellyfin-cache:
