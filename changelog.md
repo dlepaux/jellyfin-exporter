@@ -1,3 +1,10 @@
+# 1.0.0 (2026-04-26)
+
+
+### Features
+
+* initial public release of jellyfin-exporter ([575aad5](https://github.com/dlepaux/jellyfin-exporter/commit/575aad53f7666f9b2a3cb38398aec09a3ff6b4ce))
+
 # 1.0.0 (TBD)
 
 Initial public release.
