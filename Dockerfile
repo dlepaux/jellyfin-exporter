@@ -45,7 +45,9 @@ LABEL org.opencontainers.image.version=$VERSION
 LABEL org.opencontainers.image.revision=$GIT_SHA
 LABEL org.opencontainers.image.created=$BUILD_DATE
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# apt upgrade pulls debian point-release security fixes (e.g. libgnutls deb12uN)
+# the bookworm-slim tag lags; paired with CI pull:true for a fresh base each build.
+RUN apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
