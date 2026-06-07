@@ -152,6 +152,10 @@ jobs:
           outputs: type=image,"name=ghcr.io/${{ github.repository }}",push-by-digest=true,name-canonical=true,push=true
           sbom: true
           provenance: mode=max
+          # Re-resolve the FROM tag against the registry every build so a release
+          # rebuild ships the patched base (libgnutls etc.) instead of a cached
+          # months-old layer. The gha cache below still serves the app layers.
+          pull: true
           cache-from: type=gha,scope=${{ matrix.platform }}
           cache-to: type=gha,scope=${{ matrix.platform }},mode=max
 
