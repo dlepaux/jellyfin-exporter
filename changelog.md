@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/dlepaux/jellyfin-exporter/compare/v1.0.0...v1.0.1) (2026-06-07)
+
+
+### Bug Fixes
+
+* **security:** apt upgrade base packages at build time ([0ccf917](https://github.com/dlepaux/jellyfin-exporter/commit/0ccf91742e8bf32876a81b7ecd57711992828c67))
+
 # 1.0.0 (2026-04-26)
 
 
