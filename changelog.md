@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/dlepaux/jellyfin-exporter/compare/v1.0.1...v1.0.2) (2026-08-25)
+
+
+### Bug Fixes
+
+* **deny:** restore the rand advisory ignore — CI detects what my laptop did not ([a608473](https://github.com/dlepaux/jellyfin-exporter/commit/a6084732d1674064c14145e9051bf50ab3bb0a92))
+* **deps:** patch two advisories that were failing CI ([f464532](https://github.com/dlepaux/jellyfin-exporter/commit/f46453271e977b9bc50e9a8e6bea002127771f28))
+* **metrics:** derive items_count from the per-type counts, not Jellyfin's ItemCount ([a666e78](https://github.com/dlepaux/jellyfin-exporter/commit/a666e7888ab01cc30dd562c5099fac7bd416c16d))
+
 ## [1.0.1](https://github.com/dlepaux/jellyfin-exporter/compare/v1.0.0...v1.0.1) (2026-06-07)
 
 
