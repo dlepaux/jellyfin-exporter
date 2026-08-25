@@ -15,10 +15,17 @@
 #
 # - RUSTSEC-2026-0009: time 0.3.45 stack-exhaustion DoS, via
 #   axum-test → cookie → time.
-# - RUSTSEC-2026-0097: rand 0.9.2 unsoundness when a custom logger calls
-#   rand::rng() with all the advisory's preconditions met, via
-#   axum-test → rust-multipart-rfc7578_2 → rand.
-ignore = ["RUSTSEC-2026-0009", "RUSTSEC-2026-0097"]
+#   NOT fixable without an MSRV bump: the patched time (>=0.3.47) requires Rust
+#   1.88, and this crate declares rust-version = "1.85" (CI pins 1.85.0, and the
+#   readme badge advertises it). The edition-2024 resolver enforces that, so a
+#   plain `cargo update` correctly refuses to take it. Raising the MSRV is a
+#   compatibility-contract decision, not a dependency bump.
+#
+# RUSTSEC-2026-0097 (rand unsoundness) was REMOVED from this list 2026-08-25:
+# cargo-deny reported `advisory-not-detected` — no crate in the tree matched it
+# any more, so the entry was dead config warning on every run. If it returns,
+# re-add it with fresh justification rather than carrying a permanent ignore.
+ignore = ["RUSTSEC-2026-0009"]
 
 [licenses]
 allow = [
