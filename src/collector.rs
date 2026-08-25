@@ -489,7 +489,7 @@ impl Collector {
             }
         };
 
-        for (media_type, count) in [
+        let by_type = [
             ("Movie", counts.movie_count),
             ("Series", counts.series_count),
             ("Episode", counts.episode_count),
@@ -500,13 +500,29 @@ impl Collector {
             ("Trailer", counts.trailer_count),
             ("MusicVideo", counts.music_video_count),
             ("BoxSet", counts.box_set_count),
-        ] {
+        ];
+
+        for (media_type, count) in by_type {
             self.metrics
                 .items_by_type
                 .with_label_values(&[media_type])
                 .set(count as f64);
         }
-        self.metrics.items_count.set(counts.item_count as f64);
+
+        // Derived from the per-type counts, NOT from Jellyfin's own ItemCount.
+        //
+        // Jellyfin reports ItemCount as 0 while populating every per-type field.
+        // Measured on a live server 2026-08-25:
+        //   {"MovieCount":613,"SeriesCount":99,"EpisodeCount":3242,...,"ItemCount":0}
+        // So this gauge published a flat 0 for its entire recorded history while
+        // the library held ~4,000 items, and the "Total Items" dashboard panel
+        // read 0 against a healthy server.
+        //
+        // Summing the same array that feeds items_by_type keeps the two
+        // consistent by construction: the total can never disagree with the
+        // breakdown shown beside it.
+        let total: u64 = by_type.iter().map(|(_, c)| *c).sum();
+        self.metrics.items_count.set(total as f64);
     }
 
     fn collect_system_info(&self, result: Result<crate::client::SystemInfo, CollectorError>) {
@@ -758,7 +774,13 @@ mod tests {
                 trailer_count: 0,
                 music_video_count: 0,
                 box_set_count: 5,
-                item_count: 1595,
+                // 0, as a real Jellyfin server reports it. Measured 2026-08-25:
+                // {"MovieCount":613,...,"EpisodeCount":3242,"ItemCount":0}.
+                // This fixture previously carried 1595 — exactly the sum of the
+                // per-type counts — so the assertion below passed while
+                // production published a flat 0. The fixture has to reproduce
+                // the server's actual behaviour or the test proves nothing.
+                item_count: 0,
             }),
             system_info: Ok(SystemInfo {
                 server_name: "jellyfin".into(),
@@ -791,6 +813,8 @@ mod tests {
         // Enriched item counts
         assert!(output.contains(r#"jellyfin_items_by_type{type="Artist"} 50"#));
         assert!(output.contains(r#"jellyfin_items_by_type{type="BoxSet"} 5"#));
+        // 150+30+800+20+500+40+50+0+0+5 — derived from the per-type counts, and
+        // therefore non-zero even though the server reported ItemCount: 0.
         assert!(output.contains("jellyfin_items_count 1595"));
     }
 
