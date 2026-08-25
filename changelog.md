@@ -1,3 +1,26 @@
+# [2.0.0](https://github.com/dlepaux/jellyfin-exporter/compare/v1.0.2...v2.0.0) (2026-08-25)
+
+
+### Documentation
+
+* state the MSRV in the readme, not just the badge ([d34bb29](https://github.com/dlepaux/jellyfin-exporter/commit/d34bb2988f44a42a4d44d83d85d1578136dda3a7))
+
+
+### BREAKING CHANGES
+
+* minimum supported Rust version raised from 1.85 to 1.88.
+
+Required to take the patched time crate (RUSTSEC-2026-0009, stack-exhaustion
+DoS), whose fix needs 1.88. Only affects building from source; the published
+Docker images carry their own toolchain.
+
+This footer also exists because the previous commit used 'fix(deps)!:' and cut
+NO release — the configured commit-analyzer uses the ANGULAR preset, which does
+not understand the '!' breaking-change marker and failed to parse the type at
+all ('Analysis of 1 commits complete: no release'). Angular wants a
+* footer, which is what this is. Without a release there is no
+docker job, so the security fix would never have reached the image.
+
 ## [1.0.2](https://github.com/dlepaux/jellyfin-exporter/compare/v1.0.1...v1.0.2) (2026-08-25)
 
 
