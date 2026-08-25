@@ -9,6 +9,11 @@ Prometheus exporter for [Jellyfin](https://jellyfin.org) media server. Tracks ac
 
 Built in Rust. Multi-arch Docker images (`linux/amd64`, `linux/arm64`) — runs on any server.
 
+**Minimum supported Rust version: 1.88.** Raised from 1.85 on 2026-08-25 to take
+the patched `time` crate (RUSTSEC-2026-0009, stack-exhaustion DoS), whose fix
+requires 1.88. Only relevant if you build from source — the published Docker
+images carry their own toolchain.
+
 ## Quick start
 
 ```bash
