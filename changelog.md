@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.0...v2.0.1) (2026-08-25)
+
+
+### Bug Fixes
+
+* **metrics:** derive the rustc_version label from Cargo.toml ([860cd32](https://github.com/dlepaux/jellyfin-exporter/commit/860cd32957c2bcfd408314186d0e826c9cc0d461))
+
 # [2.0.0](https://github.com/dlepaux/jellyfin-exporter/compare/v1.0.2...v2.0.0) (2026-08-25)
 
 
