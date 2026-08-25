@@ -1,0 +1,10 @@
+# The config tests mutate process env (env::set_var is unsafe in Rust 2024 for
+# exactly this reason), so they must not run concurrently. CI already enforces
+# it with `cargo test -- --test-threads=1`; this makes a bare local `cargo test`
+# behave the same way.
+#
+# Without it, a plain `cargo test` fails 7 config tests with assertions about
+# missing env vars — which reads as a broken checkout rather than a known
+# constraint documented inside the test module.
+[env]
+RUST_TEST_THREADS = "1"
