@@ -334,15 +334,33 @@ impl Metrics {
 
 /// Best-effort `rustc` version label for the build-info metric.
 ///
-/// `Cargo.toml` pins `rust-version = "1.85"` so the toolchain that built
-/// this binary is at least 1.85; we report exactly that, which is stable
-/// across rebuilds and avoids pulling a build script for `rustc -V` parsing.
+/// DERIVED from `Cargo.toml`'s `rust-version` via `CARGO_PKG_RUST_VERSION`,
+/// which Cargo sets at compile time. It was previously the literal "1.85+",
+/// duplicating the MSRV in a second place — and when the MSRV moved to 1.88 for
+/// RUSTSEC-2026-0009 the metric kept reporting 1.85+, publishing a false claim
+/// about the binary that a dashboard would happily display.
+///
+/// The toolchain that built this binary is at least the MSRV, so the "+" is
+/// still honest; it avoids a build script parsing `rustc -V`.
 const fn rustc_version() -> &'static str {
-    "1.85+"
+    concat!(env!("CARGO_PKG_RUST_VERSION"), "+")
 }
 
 #[cfg(test)]
 mod tests {
+    /// The build-info label must track Cargo.toml's rust-version, not a literal.
+    /// It carried "1.85+" through an MSRV bump to 1.88, publishing a false claim.
+    #[test]
+    fn rustc_version_label_tracks_the_declared_msrv() {
+        let declared = env!("CARGO_PKG_RUST_VERSION");
+        let label = super::rustc_version();
+        assert_eq!(label, format!("{declared}+"));
+        assert!(
+            label.starts_with(declared),
+            "build-info rustc_version {label} does not match Cargo.toml rust-version {declared}"
+        );
+    }
+
     use super::*;
 
     #[test]
