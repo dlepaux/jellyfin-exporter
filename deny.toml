@@ -21,11 +21,17 @@
 #   plain `cargo update` correctly refuses to take it. Raising the MSRV is a
 #   compatibility-contract decision, not a dependency bump.
 #
-# RUSTSEC-2026-0097 (rand unsoundness) was REMOVED from this list 2026-08-25:
-# cargo-deny reported `advisory-not-detected` — no crate in the tree matched it
-# any more, so the entry was dead config warning on every run. If it returns,
-# re-add it with fresh justification rather than carrying a permanent ignore.
-ignore = ["RUSTSEC-2026-0009"]
+# - RUSTSEC-2026-0097: rand unsoundness when a custom logger calls rand::rng()
+#   with all the advisory's preconditions met, via
+#   axum-test -> rust-multipart-rfc7578_2 -> rand. Dev-dependency only.
+#
+#   DO NOT REMOVE THIS on the strength of a local cargo-deny run. It was removed
+#   on 2026-08-25 because a local check reported `advisory-not-detected`, and CI
+#   promptly failed with `error[unsound]: Rand is unsound...`. Local cargo-deny
+#   version and advisory-DB snapshot differ from CI's (pinned cargo-deny@0.18
+#   with a freshly fetched DB), so "not detected here" proves nothing about
+#   there. Verify against CI, not the laptop.
+ignore = ["RUSTSEC-2026-0009", "RUSTSEC-2026-0097"]
 
 [licenses]
 allow = [
