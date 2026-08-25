@@ -1,7 +1,7 @@
 ![CI](https://github.com/dlepaux/jellyfin-exporter/actions/workflows/ci.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Docker Image](https://ghcr-badge.egpl.dev/dlepaux/jellyfin-exporter/size)
-![Rust](https://img.shields.io/badge/rust-1.85%2B-orange)
+![Rust](https://img.shields.io/badge/rust-1.88%2B-orange)
 
 # jellyfin-exporter
 

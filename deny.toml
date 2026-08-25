@@ -13,13 +13,10 @@
 # any of these vulnerable versions; impact on production users is zero.
 # Re-verify on each axum-test release.
 #
-# - RUSTSEC-2026-0009: time 0.3.45 stack-exhaustion DoS, via
-#   axum-test → cookie → time.
-#   NOT fixable without an MSRV bump: the patched time (>=0.3.47) requires Rust
-#   1.88, and this crate declares rust-version = "1.85" (CI pins 1.85.0, and the
-#   readme badge advertises it). The edition-2024 resolver enforces that, so a
-#   plain `cargo update` correctly refuses to take it. Raising the MSRV is a
-#   compatibility-contract decision, not a dependency bump.
+# RUSTSEC-2026-0009 (time stack-exhaustion DoS) was RESOLVED 2026-08-25, not
+# suppressed: the MSRV was raised 1.85 -> 1.88 so the patched time >= 0.3.47
+# could be taken. The edition-2024 resolver had been correctly refusing it while
+# the declared rust-version said 1.85.
 #
 # - RUSTSEC-2026-0097: rand unsoundness when a custom logger calls rand::rng()
 #   with all the advisory's preconditions met, via
@@ -31,7 +28,7 @@
 #   version and advisory-DB snapshot differ from CI's (pinned cargo-deny@0.18
 #   with a freshly fetched DB), so "not detected here" proves nothing about
 #   there. Verify against CI, not the laptop.
-ignore = ["RUSTSEC-2026-0009", "RUSTSEC-2026-0097"]
+ignore = ["RUSTSEC-2026-0097"]
 
 [licenses]
 allow = [

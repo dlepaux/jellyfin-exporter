@@ -2,7 +2,7 @@
 name = "jellyfin-exporter"
 version = "1.0.2"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.88"
 license = "MIT"
 description = "Prometheus exporter for Jellyfin — sessions, transcoding, and library metrics"
 repository = "https://github.com/dlepaux/jellyfin-exporter"

@@ -330,15 +330,16 @@ impl Collector {
                     .set(seconds);
             }
 
-            // Remote address (opt-in; PII-adjacent).
-            if self.expose_remote_address {
-                if let Some(remote) = session.remote_end_point.as_deref() {
-                    let remote_addr = sanitize_label(Some(remote));
-                    self.metrics
-                        .session_remote_address
-                        .with_label_values(&[&user, &remote_addr])
-                        .set(1.0);
-                }
+            // Remote address (opt-in; PII-adjacent). let-chain rather than nested
+            // ifs: stable since 1.88, which is this crate's MSRV.
+            if self.expose_remote_address
+                && let Some(remote) = session.remote_end_point.as_deref()
+            {
+                let remote_addr = sanitize_label(Some(remote));
+                self.metrics
+                    .session_remote_address
+                    .with_label_values(&[&user, &remote_addr])
+                    .set(1.0);
             }
 
             match play_method.as_ref() {

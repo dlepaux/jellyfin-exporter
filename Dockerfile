@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM rust:1.85-bookworm AS builder
+FROM rust:1.88-bookworm AS builder
 
 # Build-time metadata. Forwarded to build.rs via env vars below so the
 # `jellyfin_exporter_build_info` metric reports accurate values for the
