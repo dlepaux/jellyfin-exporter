@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.1...v2.0.2) (2026-09-15)
+
+
+### Bug Fixes
+
+* **deps:** update rustls to 0.23.45 for RUSTSEC-2026-0285 ([6a0c1f3](https://github.com/dlepaux/jellyfin-exporter/commit/6a0c1f3b48d7b21f424985d6bc1925d36ad53f28))
+
 ## [2.0.1](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.0...v2.0.1) (2026-08-25)
 
 
