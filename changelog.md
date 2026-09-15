@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.2...v2.0.3) (2026-09-15)
+
+
+### Bug Fixes
+
+* **deps:** move chacha20 off yanked 0.10.1 and quinn-proto to 0.11.18 ([91a7373](https://github.com/dlepaux/jellyfin-exporter/commit/91a7373adb2707e003b27044814ff0dcab2a80cb))
+
 ## [2.0.2](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.1...v2.0.2) (2026-09-15)
 
 
