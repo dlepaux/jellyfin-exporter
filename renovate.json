@@ -9,12 +9,6 @@
     {
       "matchUpdateTypes": ["major"],
       "automerge": false
-    },
-    {
-      "description": "Security fixes jump the PR queue. prPriority is only valid inside packageRules.",
-      "matchPackageNames": ["*"],
-      "isVulnerabilityAlert": true,
-      "prPriority": 10
     }
   ],
   "vulnerabilityAlerts": {
