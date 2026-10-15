@@ -5,6 +5,13 @@
 
 * **deps:** update rust crate reqwest to 0.13 ([#15](https://github.com/dlepaux/jellyfin-exporter/issues/15)) ([df864d2](https://github.com/dlepaux/jellyfin-exporter/commit/df864d2d8e0b27cb675df42168313729cc8bd868))
 
+## [2.0.5](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.4...v2.0.5) (2026-10-15)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate reqwest to 0.13 ([#15](https://github.com/dlepaux/jellyfin-exporter/issues/15)) ([df864d2](https://github.com/dlepaux/jellyfin-exporter/commit/df864d2d8e0b27cb675df42168313729cc8bd868))
+
 ## [2.0.4](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.3...v2.0.4) (2026-10-14)
 
 
