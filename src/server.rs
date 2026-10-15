@@ -209,7 +209,7 @@ mod tests {
 
     #[tokio::test]
     async fn health_returns_200() {
-        let server = TestServer::new(build_router(test_state())).unwrap();
+        let server = TestServer::new(build_router(test_state()));
         let response = server.get("/health").await;
         response.assert_status_ok();
         response.assert_text("ok");
@@ -217,7 +217,7 @@ mod tests {
 
     #[tokio::test]
     async fn metrics_returns_prometheus_text() {
-        let server = TestServer::new(build_router(test_state())).unwrap();
+        let server = TestServer::new(build_router(test_state()));
         let response = server.get("/metrics").await;
         response.assert_status_ok();
 
@@ -227,7 +227,7 @@ mod tests {
 
     #[tokio::test]
     async fn ready_returns_200_when_circuit_closed() {
-        let server = TestServer::new(build_router(test_state())).unwrap();
+        let server = TestServer::new(build_router(test_state()));
         let response = server.get("/ready").await;
         response.assert_status_ok();
         response.assert_text("ready");
@@ -235,7 +235,7 @@ mod tests {
 
     #[tokio::test]
     async fn metrics_auth_rejects_missing_token() {
-        let server = TestServer::new(build_router(test_state_with_auth("secret-token"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret-token")));
         let response = server.get("/metrics").await;
         response.assert_status(StatusCode::UNAUTHORIZED);
         assert!(response.text().contains("missing or invalid Bearer token"));
@@ -243,7 +243,7 @@ mod tests {
 
     #[tokio::test]
     async fn metrics_auth_rejects_wrong_token() {
-        let server = TestServer::new(build_router(test_state_with_auth("secret-token"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret-token")));
         let response = server
             .get("/metrics")
             .add_header(
@@ -260,7 +260,7 @@ mod tests {
     async fn metrics_auth_rejects_short_token() {
         // Length-mismatched token must also be rejected — and the auth path
         // must not branch on length match alone.
-        let server = TestServer::new(build_router(test_state_with_auth("secret-token"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret-token")));
         let response = server
             .get("/metrics")
             .add_header(
@@ -273,7 +273,7 @@ mod tests {
 
     #[tokio::test]
     async fn metrics_auth_accepts_correct_token() {
-        let server = TestServer::new(build_router(test_state_with_auth("secret-token"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret-token")));
         let response = server
             .get("/metrics")
             .add_header(
@@ -290,7 +290,7 @@ mod tests {
     #[tokio::test]
     async fn unauthorized_response_carries_www_authenticate() {
         // RFC 7235: 401 responses must include a WWW-Authenticate challenge.
-        let server = TestServer::new(build_router(test_state_with_auth("secret"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret")));
         let response = server.get("/metrics").await;
         response.assert_status(StatusCode::UNAUTHORIZED);
         let challenge = response.header("www-authenticate");
@@ -302,7 +302,7 @@ mod tests {
 
     #[tokio::test]
     async fn health_unaffected_by_metrics_auth() {
-        let server = TestServer::new(build_router(test_state_with_auth("secret-token"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret-token")));
         let response = server.get("/health").await;
         response.assert_status_ok();
         response.assert_text("ok");
@@ -310,7 +310,7 @@ mod tests {
 
     #[tokio::test]
     async fn ready_unaffected_by_metrics_auth() {
-        let server = TestServer::new(build_router(test_state_with_auth("secret-token"))).unwrap();
+        let server = TestServer::new(build_router(test_state_with_auth("secret-token")));
         let response = server.get("/ready").await;
         response.assert_status_ok();
     }
