@@ -1,3 +1,10 @@
+## [2.0.6](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.5...v2.0.6) (2026-10-24)
+
+
+### Bug Fixes
+
+* **deps:** bump rustls-webpki and webpki-root-certs (RUSTSEC-2026-0382/0383) ([#30](https://github.com/dlepaux/jellyfin-exporter/issues/30)) ([b90e850](https://github.com/dlepaux/jellyfin-exporter/commit/b90e85032f4f7fadb02aedf596b4e0c60f29bbdd))
+
 ## [2.0.5](https://github.com/dlepaux/jellyfin-exporter/compare/v2.0.4...v2.0.5) (2026-10-15)
 
 
